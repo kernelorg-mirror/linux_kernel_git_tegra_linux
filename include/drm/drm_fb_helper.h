@@ -198,6 +198,13 @@ struct drm_fb_helper {
 	struct work_struct dirty_work;
 
 	/**
+	 * @lock:
+	 *
+	 * Top-level FB helper lock.
+	 */
+	struct mutex lock;
+
+	/**
 	 * @kernel_fb_list:
 	 *
 	 * Entry on the global kernel_fb_helper_list, used for kgdb entry/exit.
