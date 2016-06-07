@@ -495,10 +495,8 @@ static void intel_dp_destroy_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
 	drm_connector_unregister(connector);
 
 	/* need to nuke the connector */
-	drm_modeset_lock_all(dev);
 	intel_connector_remove_from_fbdev(intel_connector);
 	intel_connector->mst_port = NULL;
-	drm_modeset_unlock_all(dev);
 
 	drm_connector_unreference(&intel_connector->base);
 	DRM_DEBUG_KMS("\n");
