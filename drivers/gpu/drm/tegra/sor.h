@@ -213,8 +213,10 @@
 #define SOR_TRIG 0x48
 #define SOR_MSCHECK 0x49
 #define SOR_XBAR_CTRL 0x4a
-#define  SOR_XBAR_CTRL_LINK1_XSEL(channel, value) ((((value) & 0x7) << ((channel) * 3)) << 17)
-#define  SOR_XBAR_CTRL_LINK0_XSEL(channel, value) ((((value) & 0x7) << ((channel) * 3)) <<  2)
+#define  SOR_XBAR_CTRL_LINK1_XSEL(channel, value) ((((value) & 0x7) << \
+							((channel) * 3)) << 17)
+#define  SOR_XBAR_CTRL_LINK0_XSEL(channel, value) ((((value) & 0x7) << \
+							((channel) * 3)) <<  2)
 #define  SOR_XBAR_CTRL_LINK_SWAP (1 << 1)
 #define  SOR_XBAR_CTRL_BYPASS (1 << 0)
 #define SOR_XBAR_POL 0x4b

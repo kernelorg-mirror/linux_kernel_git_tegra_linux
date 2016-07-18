@@ -1626,7 +1626,8 @@ static irqreturn_t tegra_hdmi_irq(int irq, void *data)
 		unsigned int format;
 		u32 value;
 
-		value = tegra_hdmi_readl(hdmi, HDMI_NV_PDISP_SOR_AUDIO_HDA_CODEC_SCRATCH0);
+		value = tegra_hdmi_readl(hdmi,
+				 HDMI_NV_PDISP_SOR_AUDIO_HDA_CODEC_SCRATCH0);
 
 		if (value & SOR_AUDIO_HDA_CODEC_SCRATCH0_VALID) {
 			unsigned int sample_rate, channels;

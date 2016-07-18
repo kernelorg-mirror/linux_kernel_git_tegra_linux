@@ -427,8 +427,8 @@ static int tegra_bo_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 	if (!bo->pages)
 		return VM_FAULT_SIGBUS;
 
-	offset = ((unsigned long)vmf->virtual_address - vma->vm_start) >> PAGE_SHIFT;
-	page = bo->pages[offset];
+	offset = (unsigned long)vmf->virtual_address - vma->vm_start;
+	page = bo->pages[offset >> PAGE_SHIFT];
 
 	err = vm_insert_page(vma, (unsigned long)vmf->virtual_address, page);
 	switch (err) {

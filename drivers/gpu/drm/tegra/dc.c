@@ -448,7 +448,8 @@ static void tegra_plane_reset(struct drm_plane *plane)
 	}
 }
 
-static struct drm_plane_state *tegra_plane_atomic_duplicate_state(struct drm_plane *plane)
+static struct drm_plane_state *
+tegra_plane_atomic_duplicate_state(struct drm_plane *plane)
 {
 	struct tegra_plane_state *state = to_tegra_plane_state(plane->state);
 	struct tegra_plane_state *copy;

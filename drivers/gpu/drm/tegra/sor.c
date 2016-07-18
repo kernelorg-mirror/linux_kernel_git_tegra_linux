@@ -1379,7 +1379,8 @@ tegra_sor_connector_mode_valid(struct drm_connector *connector,
 	return MODE_OK;
 }
 
-static const struct drm_connector_helper_funcs tegra_sor_connector_helper_funcs = {
+static const struct drm_connector_helper_funcs
+tegra_sor_connector_helper_funcs = {
 	.get_modes = tegra_sor_connector_get_modes,
 	.mode_valid = tegra_sor_connector_mode_valid,
 };
