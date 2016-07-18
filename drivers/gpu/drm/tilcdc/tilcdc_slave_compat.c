@@ -32,8 +32,8 @@ static int __init kfree_table_init(struct kfree_table *kft)
 {
 	kft->total = 32;
 	kft->num = 0;
-	kft->table = kmalloc(kft->total * sizeof(*kft->table),
-			     GFP_KERNEL);
+	kft->table = kmalloc_array(kft->total, sizeof(*kft->table),
+				   GFP_KERNEL);
 	if (!kft->table)
 		return -ENOMEM;
 
@@ -201,8 +201,10 @@ void __init tilcdc_convert_slave_node(void)
 	struct device_node *i2c = NULL, *fragment = NULL;
 	struct device_node *overlay, *encoder;
 	struct property *prop;
-	/* For all memory needed for the overlay tree. This memory can
-	   be freed after the overlay has been applied. */
+	/*
+	 * For all memory needed for the overlay tree. This memory can
+	 * be freed after the overlay has been applied.
+	 */
 	struct kfree_table kft;
 	int ret;
 
