@@ -106,7 +106,7 @@ static struct tegra_fb *tegra_fb_alloc(struct drm_device *drm,
 	if (!fb)
 		return ERR_PTR(-ENOMEM);
 
-	fb->planes = kzalloc(num_planes * sizeof(*planes), GFP_KERNEL);
+	fb->planes = kcalloc(num_planes, sizeof(*planes), GFP_KERNEL);
 	if (!fb->planes) {
 		kfree(fb);
 		return ERR_PTR(-ENOMEM);
@@ -291,10 +291,8 @@ static struct tegra_fbdev *tegra_fbdev_create(struct drm_device *drm)
 	struct tegra_fbdev *fbdev;
 
 	fbdev = kzalloc(sizeof(*fbdev), GFP_KERNEL);
-	if (!fbdev) {
-		dev_err(drm->dev, "failed to allocate DRM fbdev\n");
+	if (!fbdev)
 		return ERR_PTR(-ENOMEM);
-	}
 
 	drm_fb_helper_prepare(drm, &fbdev->base, &tegra_fb_helper_funcs);
 
