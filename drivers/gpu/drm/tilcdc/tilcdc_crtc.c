@@ -628,7 +628,7 @@ void tilcdc_crtc_update_clk(struct drm_crtc *crtc)
 	struct tilcdc_drm_private *priv = dev->dev_private;
 	int dpms = tilcdc_crtc->dpms;
 	unsigned long lcd_clk;
-	const unsigned clkdiv = 2; /* using a fixed divider of 2 */
+	const unsigned int clkdiv = 2; /* using a fixed divider of 2 */
 	int ret;
 
 	pm_runtime_get_sync(dev->dev);

@@ -460,7 +460,7 @@ static int tilcdc_regs_show(struct seq_file *m, void *arg)
 	struct drm_info_node *node = (struct drm_info_node *) m->private;
 	struct drm_device *dev = node->minor->dev;
 	struct tilcdc_drm_private *priv = dev->dev_private;
-	unsigned i;
+	unsigned int i;
 
 	pm_runtime_get_sync(dev->dev);
 
@@ -588,7 +588,7 @@ static int tilcdc_pm_suspend(struct device *dev)
 {
 	struct drm_device *ddev = dev_get_drvdata(dev);
 	struct tilcdc_drm_private *priv = ddev->dev_private;
-	unsigned i, n = 0;
+	unsigned int i, n = 0;
 
 	drm_kms_helper_poll_disable(ddev);
 
@@ -617,7 +617,7 @@ static int tilcdc_pm_resume(struct device *dev)
 {
 	struct drm_device *ddev = dev_get_drvdata(dev);
 	struct tilcdc_drm_private *priv = ddev->dev_private;
-	unsigned i, n = 0;
+	unsigned int i, n = 0;
 
 	/* Select default pin state */
 	pinctrl_pm_select_default_state(dev);
