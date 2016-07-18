@@ -19,13 +19,21 @@ if DRM_TEGRA
 config DRM_TEGRA_DEBUG
 	bool "NVIDIA Tegra DRM debug support"
 	help
-	  Say yes here to enable debugging support.
+	  This option enables debugging support for the Tegra DRM driver. It
+	  causes the DEBUG macro to be defined and hence enables most of the
+	  driver's debugging messages.
 
 config DRM_TEGRA_STAGING
 	bool "Enable HOST1X interface"
 	depends on STAGING
 	help
-	  Say yes if HOST1X should be available for userspace DRM users.
+	  The Tegra DRM driver implements various userspace interfaces that
+	  are considered experimental and unstable. They provide the means to
+	  submit command streams, create and manipulate buffer objects and so
+	  on.
+
+	  Say Y here if these interfaces should be available to userspace DRM
+	  users.
 
 	  If unsure, choose N.
 
