@@ -242,7 +242,7 @@ static inline u32 compute_initial_dda(unsigned int in)
 static void tegra_dc_setup_window(struct tegra_dc *dc, unsigned int index,
 				  const struct tegra_dc_window *window)
 {
-	unsigned h_offset, v_offset, h_size, v_size, h_dda, v_dda, bpp;
+	unsigned int h_offset, v_offset, h_size, v_size, h_dda, v_dda, bpp;
 	unsigned long value, flags;
 	bool yuv, planar;
 

@@ -299,7 +299,8 @@ static void tegra_dpaux_pad_power_up(struct tegra_dpaux *dpaux)
 	tegra_dpaux_writel(dpaux, value, DPAUX_HYBRID_SPARE);
 }
 
-static int tegra_dpaux_pad_config(struct tegra_dpaux *dpaux, unsigned function)
+static int tegra_dpaux_pad_config(struct tegra_dpaux *dpaux,
+				  unsigned int function)
 {
 	u32 value;
 
@@ -338,7 +339,7 @@ static const struct pinctrl_pin_desc tegra_dpaux_pins[] = {
 	PINCTRL_PIN(1, "DP_AUX_CHx_N"),
 };
 
-static const unsigned tegra_dpaux_pin_numbers[] = { 0, 1 };
+static const unsigned int tegra_dpaux_pin_numbers[] = { 0, 1 };
 
 static const char * const tegra_dpaux_groups[] = {
 	"dpaux-io",
@@ -362,8 +363,9 @@ static const char *tegra_dpaux_get_group_name(struct pinctrl_dev *pinctrl,
 }
 
 static int tegra_dpaux_get_group_pins(struct pinctrl_dev *pinctrl,
-				      unsigned group, const unsigned **pins,
-				      unsigned *num_pins)
+				      unsigned int group,
+				      const unsigned int **pins,
+				      unsigned int *num_pins)
 {
 	*pins = tegra_dpaux_pin_numbers;
 	*num_pins = ARRAY_SIZE(tegra_dpaux_pin_numbers);
