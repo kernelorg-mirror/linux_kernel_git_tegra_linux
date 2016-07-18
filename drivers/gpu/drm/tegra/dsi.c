@@ -296,32 +296,32 @@ static void tegra_dsi_debugfs_exit(struct tegra_dsi *dsi)
  * non-burst mode with sync pulses
  */
 static const u32 pkt_seq_video_non_burst_sync_pulses[NUM_PKT_SEQ] = {
-	[ 0] = PKT_ID0(MIPI_DSI_V_SYNC_START) | PKT_LEN0(0) |
+	[0]  = PKT_ID0(MIPI_DSI_V_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(1) |
 	       PKT_ID2(MIPI_DSI_H_SYNC_END) | PKT_LEN2(0) |
 	       PKT_LP,
-	[ 1] = 0,
-	[ 2] = PKT_ID0(MIPI_DSI_V_SYNC_END) | PKT_LEN0(0) |
+	[1]  = 0,
+	[2]  = PKT_ID0(MIPI_DSI_V_SYNC_END) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(1) |
 	       PKT_ID2(MIPI_DSI_H_SYNC_END) | PKT_LEN2(0) |
 	       PKT_LP,
-	[ 3] = 0,
-	[ 4] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[3]  = 0,
+	[4]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(1) |
 	       PKT_ID2(MIPI_DSI_H_SYNC_END) | PKT_LEN2(0) |
 	       PKT_LP,
-	[ 5] = 0,
-	[ 6] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[5]  = 0,
+	[6]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(1) |
 	       PKT_ID2(MIPI_DSI_H_SYNC_END) | PKT_LEN2(0),
-	[ 7] = PKT_ID0(MIPI_DSI_BLANKING_PACKET) | PKT_LEN0(2) |
+	[7]  = PKT_ID0(MIPI_DSI_BLANKING_PACKET) | PKT_LEN0(2) |
 	       PKT_ID1(MIPI_DSI_PACKED_PIXEL_STREAM_24) | PKT_LEN1(3) |
 	       PKT_ID2(MIPI_DSI_BLANKING_PACKET) | PKT_LEN2(4),
-	[ 8] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[8]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(1) |
 	       PKT_ID2(MIPI_DSI_H_SYNC_END) | PKT_LEN2(0) |
 	       PKT_LP,
-	[ 9] = 0,
+	[9]  = 0,
 	[10] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(1) |
 	       PKT_ID2(MIPI_DSI_H_SYNC_END) | PKT_LEN2(0),
@@ -334,26 +334,26 @@ static const u32 pkt_seq_video_non_burst_sync_pulses[NUM_PKT_SEQ] = {
  * non-burst mode with sync events
  */
 static const u32 pkt_seq_video_non_burst_sync_events[NUM_PKT_SEQ] = {
-	[ 0] = PKT_ID0(MIPI_DSI_V_SYNC_START) | PKT_LEN0(0) |
+	[0]  = PKT_ID0(MIPI_DSI_V_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_END_OF_TRANSMISSION) | PKT_LEN1(7) |
 	       PKT_LP,
-	[ 1] = 0,
-	[ 2] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[1]  = 0,
+	[2]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_END_OF_TRANSMISSION) | PKT_LEN1(7) |
 	       PKT_LP,
-	[ 3] = 0,
-	[ 4] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[3]  = 0,
+	[4]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_END_OF_TRANSMISSION) | PKT_LEN1(7) |
 	       PKT_LP,
-	[ 5] = 0,
-	[ 6] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[5]  = 0,
+	[6]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(2) |
 	       PKT_ID2(MIPI_DSI_PACKED_PIXEL_STREAM_24) | PKT_LEN2(3),
-	[ 7] = PKT_ID0(MIPI_DSI_BLANKING_PACKET) | PKT_LEN0(4),
-	[ 8] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
+	[7]  = PKT_ID0(MIPI_DSI_BLANKING_PACKET) | PKT_LEN0(4),
+	[8]  = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_END_OF_TRANSMISSION) | PKT_LEN1(7) |
 	       PKT_LP,
-	[ 9] = 0,
+	[9]  = 0,
 	[10] = PKT_ID0(MIPI_DSI_H_SYNC_START) | PKT_LEN0(0) |
 	       PKT_ID1(MIPI_DSI_BLANKING_PACKET) | PKT_LEN1(2) |
 	       PKT_ID2(MIPI_DSI_PACKED_PIXEL_STREAM_24) | PKT_LEN2(3),
@@ -361,16 +361,16 @@ static const u32 pkt_seq_video_non_burst_sync_events[NUM_PKT_SEQ] = {
 };
 
 static const u32 pkt_seq_command_mode[NUM_PKT_SEQ] = {
-	[ 0] = 0,
-	[ 1] = 0,
-	[ 2] = 0,
-	[ 3] = 0,
-	[ 4] = 0,
-	[ 5] = 0,
-	[ 6] = PKT_ID0(MIPI_DSI_DCS_LONG_WRITE) | PKT_LEN0(3) | PKT_LP,
-	[ 7] = 0,
-	[ 8] = 0,
-	[ 9] = 0,
+	[0]  = 0,
+	[1]  = 0,
+	[2]  = 0,
+	[3]  = 0,
+	[4]  = 0,
+	[5]  = 0,
+	[6]  = PKT_ID0(MIPI_DSI_DCS_LONG_WRITE) | PKT_LEN0(3) | PKT_LP,
+	[7]  = 0,
+	[8]  = 0,
+	[9]  = 0,
 	[10] = PKT_ID0(MIPI_DSI_DCS_LONG_WRITE) | PKT_LEN0(5) | PKT_LP,
 	[11] = 0,
 };
@@ -1181,7 +1181,9 @@ static int tegra_dsi_transmit(struct tegra_dsi *dsi, unsigned long timeout)
 	timeout = jiffies + msecs_to_jiffies(timeout);
 
 	while (time_before(jiffies, timeout)) {
-		u32 value = tegra_dsi_readl(dsi, DSI_TRIGGER);
+		u32 value;
+
+		value = tegra_dsi_readl(dsi, DSI_TRIGGER);
 		if ((value & DSI_TRIGGER_HOST) == 0)
 			return 0;
 

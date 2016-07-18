@@ -235,6 +235,7 @@ static inline u32 compute_dda_inc(unsigned int in, unsigned int out, bool v,
 static inline u32 compute_initial_dda(unsigned int in)
 {
 	fixed20_12 inf = dfixed_init(in);
+
 	return dfixed_frac(inf);
 }
 
