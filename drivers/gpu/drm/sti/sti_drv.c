@@ -230,19 +230,7 @@ static void sti_output_poll_changed(struct drm_device *ddev)
 {
 	struct sti_private *private = ddev->dev_private;
 
-	if (!ddev->mode_config.num_connector)
-		return;
-
-	if (private->fbdev) {
-		drm_fbdev_cma_hotplug_event(private->fbdev);
-		return;
-	}
-
-	private->fbdev = drm_fbdev_cma_init(ddev, 32,
-					    ddev->mode_config.num_crtc,
-					    ddev->mode_config.num_connector);
-	if (IS_ERR(private->fbdev))
-		private->fbdev = NULL;
+	drm_fbdev_cma_hotplug_event(private->fbdev);
 }
 
 static const struct drm_mode_config_funcs sti_mode_config_funcs = {
