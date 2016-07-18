@@ -1318,15 +1318,15 @@ static ssize_t tegra_dsi_host_transfer(struct mipi_dsi_host *host,
 		value = tegra_dsi_readl(dsi, DSI_RD_DATA);
 		switch (value) {
 		case 0x84:
-			/*
-			dev_dbg(dsi->dev, "ACK\n");
-			*/
+			if (0)
+				dev_dbg(dsi->dev, "ACK\n");
+
 			break;
 
 		case 0x87:
-			/*
-			dev_dbg(dsi->dev, "ESCAPE\n");
-			*/
+			if (0)
+				dev_dbg(dsi->dev, "ESCAPE\n");
+
 			break;
 
 		default:

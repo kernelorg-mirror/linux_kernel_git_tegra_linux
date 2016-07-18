@@ -1347,32 +1347,32 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
 	tegra_dc_writel(dc, status, DC_CMD_INT_STATUS);
 
 	if (status & FRAME_END_INT) {
-		/*
-		dev_dbg(dc->dev, "%s(): frame end\n", __func__);
-		*/
+		if (0)
+			dev_dbg(dc->dev, "%s(): frame end\n", __func__);
+
 		dc->stats.frames++;
 	}
 
 	if (status & VBLANK_INT) {
-		/*
-		dev_dbg(dc->dev, "%s(): vertical blank\n", __func__);
-		*/
+		if (0)
+			dev_dbg(dc->dev, "%s(): vertical blank\n", __func__);
+
 		drm_crtc_handle_vblank(&dc->base);
 		tegra_dc_finish_page_flip(dc);
 		dc->stats.vblank++;
 	}
 
 	if (status & (WIN_A_UF_INT | WIN_B_UF_INT | WIN_C_UF_INT)) {
-		/*
-		dev_dbg(dc->dev, "%s(): underflow\n", __func__);
-		*/
+		if (0)
+			dev_dbg(dc->dev, "%s(): underflow\n", __func__);
+
 		dc->stats.underflow++;
 	}
 
 	if (status & (WIN_A_OF_INT | WIN_B_OF_INT | WIN_C_OF_INT)) {
-		/*
-		dev_dbg(dc->dev, "%s(): overflow\n", __func__);
-		*/
+		if (0)
+			dev_dbg(dc->dev, "%s(): overflow\n", __func__);
+
 		dc->stats.overflow++;
 	}
 

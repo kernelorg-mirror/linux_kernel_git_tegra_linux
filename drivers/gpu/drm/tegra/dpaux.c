@@ -266,7 +266,9 @@ static irqreturn_t tegra_dpaux_irq(int irq, void *data)
 		schedule_work(&dpaux->work);
 
 	if (value & DPAUX_INTR_IRQ_EVENT) {
-		/* TODO: handle this */
+		/*
+		 * TODO: handle this
+		 */
 	}
 
 	if (value & DPAUX_INTR_AUX_DONE)
