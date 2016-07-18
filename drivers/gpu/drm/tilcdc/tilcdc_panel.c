@@ -65,6 +65,7 @@ static void panel_encoder_dpms(struct drm_encoder *encoder, int mode)
 static void panel_encoder_prepare(struct drm_encoder *encoder)
 {
 	struct panel_encoder *panel_encoder = to_panel_encoder(encoder);
+
 	panel_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
 	tilcdc_crtc_set_panel_info(encoder->crtc, panel_encoder->mod->info);
 }
@@ -191,6 +192,7 @@ static struct drm_encoder *panel_connector_best_encoder(
 		struct drm_connector *connector)
 {
 	struct panel_connector *panel_connector = to_panel_connector(connector);
+
 	return panel_connector->encoder;
 }
 

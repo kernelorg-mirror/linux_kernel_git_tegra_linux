@@ -196,6 +196,7 @@ static struct drm_encoder *tfp410_connector_best_encoder(
 		struct drm_connector *connector)
 {
 	struct tfp410_connector *tfp410_connector = to_tfp410_connector(connector);
+
 	return tfp410_connector->encoder;
 }
 

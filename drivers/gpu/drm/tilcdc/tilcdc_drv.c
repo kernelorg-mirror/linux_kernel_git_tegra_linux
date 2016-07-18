@@ -56,6 +56,7 @@ static struct drm_framebuffer *tilcdc_fb_create(struct drm_device *dev,
 static void tilcdc_fb_output_poll_changed(struct drm_device *dev)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
+
 	drm_fbdev_cma_hotplug_event(priv->fbdev);
 }
 
@@ -351,6 +352,7 @@ fail_unset_priv:
 static void tilcdc_lastclose(struct drm_device *dev)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
+
 	drm_fbdev_cma_restore_mode(priv->fbdev);
 }
 
@@ -358,6 +360,7 @@ static irqreturn_t tilcdc_irq(int irq, void *arg)
 {
 	struct drm_device *dev = arg;
 	struct tilcdc_drm_private *priv = dev->dev_private;
+
 	return tilcdc_crtc_irq(priv->crtc);
 }
 
@@ -407,7 +410,6 @@ static int tilcdc_enable_vblank(struct drm_device *dev, unsigned int pipe)
 
 static void tilcdc_disable_vblank(struct drm_device *dev, unsigned int pipe)
 {
-	return;
 }
 
 #if defined(CONFIG_DEBUG_FS) || defined(CONFIG_PM_SLEEP)
@@ -478,6 +480,7 @@ static int tilcdc_mm_show(struct seq_file *m, void *arg)
 {
 	struct drm_info_node *node = (struct drm_info_node *) m->private;
 	struct drm_device *dev = node->minor->dev;
+
 	return drm_mm_dump_table(m, &dev->vma_offset_manager->vm_addr_space_mm);
 }
 
@@ -512,6 +515,7 @@ static int tilcdc_debugfs_init(struct drm_minor *minor)
 static void tilcdc_debugfs_cleanup(struct drm_minor *minor)
 {
 	struct tilcdc_module *mod;
+
 	drm_debugfs_remove_files(tilcdc_debugfs_list,
 			ARRAY_SIZE(tilcdc_debugfs_list), minor);
 

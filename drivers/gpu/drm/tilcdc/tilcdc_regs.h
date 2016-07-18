@@ -116,12 +116,14 @@
 static inline void tilcdc_write(struct drm_device *dev, u32 reg, u32 data)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
+
 	iowrite32(data, priv->mmio + reg);
 }
 
 static inline u32 tilcdc_read(struct drm_device *dev, u32 reg)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
+
 	return ioread32(priv->mmio + reg);
 }
 
@@ -139,6 +141,7 @@ static inline void tilcdc_clear(struct drm_device *dev, u32 reg, u32 mask)
 static inline u32 tilcdc_irqstatus_reg(struct drm_device *dev)
 {
 	struct tilcdc_drm_private *priv = dev->dev_private;
+
 	return (priv->rev == 2) ? LCDC_MASKED_STAT_REG : LCDC_STAT_REG;
 }
 
