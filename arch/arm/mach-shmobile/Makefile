@@ -23,7 +23,8 @@ obj-$(CONFIG_ARCH_R7S72100)	+= setup-r7s72100.o
 cpu-y				:= platsmp.o headsmp.o
 
 # Shared SoC family objects
-obj-$(CONFIG_ARCH_RCAR_GEN2)	+= setup-rcar-gen2.o platsmp-apmu.o $(cpu-y)
+cpu-$(CONFIG_ARCH_RCAR_GEN2)	+= platsmp-apmu.o
+obj-$(CONFIG_ARCH_RCAR_GEN2)	+= setup-rcar-gen2.o
 CFLAGS_setup-rcar-gen2.o	+= -march=armv7-a
 obj-$(CONFIG_ARCH_R8A7790)	+= regulator-quirk-rcar-gen2.o
 obj-$(CONFIG_ARCH_R8A7791)	+= regulator-quirk-rcar-gen2.o

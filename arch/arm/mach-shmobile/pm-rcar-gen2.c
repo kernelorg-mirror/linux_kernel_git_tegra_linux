@@ -39,12 +39,6 @@ static void __init rcar_gen2_sysc_init(u32 syscier)
 	rcar_sysc_init(0xe6180000, syscier);
 }
 
-#else /* CONFIG_SMP */
-
-static inline void rcar_gen2_sysc_init(u32 syscier) {}
-
-#endif /* CONFIG_SMP */
-
 void __init rcar_gen2_pm_init(void)
 {
 	void __iomem *p;
@@ -104,3 +98,11 @@ void __init rcar_gen2_pm_init(void)
 	rcar_gen2_sysc_init(syscier);
 	shmobile_smp_apmu_suspend_init();
 }
+#else /* CONFIG_SMP */
+
+static inline void rcar_gen2_sysc_init(u32 syscier) {}
+
+void __init rcar_gen2_pm_init(void)
+{
+}
+#endif /* CONFIG_SMP */
