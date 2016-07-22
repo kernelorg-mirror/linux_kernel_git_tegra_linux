@@ -278,6 +278,33 @@ static const char * const tegra_clk_sor_brick_parents[] = {
 	"pll_d2_out0", "pll_dp"
 };
 
+static long tegra_clk_sor_brick_round_rate(struct clk_hw *hw,
+					   unsigned long rate,
+					   unsigned long *parent_rate)
+{
+	struct tegra_clk_sor_brick *brick = to_brick(hw);
+	struct tegra_sor *sor = brick->sor;
+	long err = *parent_rate;
+
+	dev_dbg(sor->dev, "> %s(hw=%p, rate=%lu, parent_rate=%p)\n",
+		__func__, hw, rate, parent_rate);
+	dev_dbg(sor->dev, "< %s() = %ld\n", __func__, err);
+	return err;
+}
+
+static unsigned long tegra_clk_sor_brick_recalc_rate(struct clk_hw *hw,
+						     unsigned long parent_rate)
+{
+	struct tegra_clk_sor_brick *brick = to_brick(hw);
+	struct tegra_sor *sor = brick->sor;
+	unsigned long ret = parent_rate;
+
+	dev_dbg(sor->dev, "> %s(hw=%p, parent_rate=%lu)\n", __func__, hw,
+		parent_rate);
+	dev_dbg(sor->dev, "< %s() = %lu\n", __func__, ret);
+	return ret;
+}
+
 static int tegra_clk_sor_brick_set_parent(struct clk_hw *hw, u8 index)
 {
 	struct tegra_clk_sor_brick *brick = to_brick(hw);
@@ -327,6 +354,8 @@ static u8 tegra_clk_sor_brick_get_parent(struct clk_hw *hw)
 }
 
 static const struct clk_ops tegra_clk_sor_brick_ops = {
+	.recalc_rate = tegra_clk_sor_brick_recalc_rate,
+	.round_rate = tegra_clk_sor_brick_round_rate,
 	.set_parent = tegra_clk_sor_brick_set_parent,
 	.get_parent = tegra_clk_sor_brick_get_parent,
 };
@@ -1236,6 +1265,19 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
 	DUMP_REG(SOR_DP_LQ_CSTM0);
 	DUMP_REG(SOR_DP_LQ_CSTM1);
 	DUMP_REG(SOR_DP_LQ_CSTM2);
+	DUMP_REG(SOR_HDMI_AUDIO_INFOFRAME_CTRL);
+	DUMP_REG(SOR_HDMI_AUDIO_INFOFRAME_STATUS);
+	DUMP_REG(SOR_HDMI_AUDIO_INFOFRAME_HEADER);
+	DUMP_REG(SOR_HDMI_AVI_INFOFRAME_CTRL);
+	DUMP_REG(SOR_HDMI_AVI_INFOFRAME_STATUS);
+	DUMP_REG(SOR_HDMI_AVI_INFOFRAME_HEADER);
+	DUMP_REG(SOR_HDMI_CTRL);
+	DUMP_REG(SOR_REFCLK);
+	DUMP_REG(SOR_INPUT_CONTROL);
+	DUMP_REG(SOR_HDMI_VSI_INFOFRAME_CTRL);
+	DUMP_REG(SOR_HDMI_VSI_INFOFRAME_STATUS);
+	DUMP_REG(SOR_HDMI_VSI_INFOFRAME_HEADER);
+	DUMP_REG(SOR_HDMI2_CTRL);
 
 #undef DUMP_REG
 
@@ -1376,10 +1418,6 @@ static enum drm_mode_status
 tegra_sor_connector_mode_valid(struct drm_connector *connector,
 			       struct drm_display_mode *mode)
 {
-	/* HDMI 2.0 modes are not yet supported */
-	if (mode->clock > 340000)
-		return MODE_NOCLOCK;
-
 	return MODE_OK;
 }
 
@@ -2124,6 +2162,7 @@ static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
 	struct tegra_sor_state *state;
 	struct drm_display_mode *mode;
 	unsigned int div, i;
+	unsigned long rate;
 	u32 value;
 	int err;
 
@@ -2203,7 +2242,7 @@ static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
 	value &= ~SOR_CLK_CNTRL_DP_CLK_SEL_MASK;
 
 	if (mode->clock < 340000) {
-		DRM_DEBUG_KMS("setting 2.7 GHz link speekd\n");
+		DRM_DEBUG_KMS("setting 2.7 GHz link speed\n");
 		value |= SOR_CLK_CNTRL_DP_LINK_SPEED_G2_70;
 	} else {
 		DRM_DEBUG_KMS("setting 5.4 GHz link speed\n");
@@ -2222,9 +2261,9 @@ static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
 
 	value = tegra_sor_readl(sor, SOR_DP_SPARE0);
 	value |= SOR_DP_SPARE_DISP_VIDEO_PREAMBLE;
-	value |= SOR_DP_SPARE_MACRO_SOR_CLK; /* XXX */
+	value &= ~SOR_DP_SPARE_MACRO_SOR_CLK; /* XXX */
 	value &= ~SOR_DP_SPARE_PANEL_INTERNAL;
-	value |= SOR_DP_SPARE_SEQ_ENABLE;
+	value &= ~SOR_DP_SPARE_SEQ_ENABLE;
 	tegra_sor_writel(sor, value, SOR_DP_SPARE0);
 
 	value = SOR_SEQ_CTL_PU_PC(0) | SOR_SEQ_CTL_PU_PC_ALT(0) |
@@ -2253,15 +2292,20 @@ static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
 	if (err < 0)
 		dev_err(sor->dev, "failed to set source clock: %d\n", err);
 
-	err = tegra_sor_set_parent_clock(sor, sor->clk_src);
+	err = clk_set_parent(sor->clk_brick, sor->clk_parent);
+	if (err < 0)
+		dev_err(sor->dev, "failed to set brick clock: %d\n", err);
+
+	err = tegra_sor_set_parent_clock(sor, sor->clk_brick);
 	if (err < 0)
 		dev_err(sor->dev, "failed to set parent clock: %d\n", err);
 
-	if (mode->clock >= 340000) {
-		unsigned long rate = clk_get_rate(sor->clk_parent);
+	rate = clk_get_rate(sor->clk_parent);
 
-		clk_set_rate(sor->clk, rate / 2);
-	}
+	if (mode->clock >= 340000)
+		rate = DIV_ROUND_UP(rate, 2);
+
+	clk_set_rate(sor->clk_src, rate);
 
 	value = SOR_INPUT_CONTROL_HDMI_SRC_SELECT(dc->pipe);
 
