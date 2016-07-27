@@ -2287,6 +2287,46 @@ static void tegra_sor_hdmi_enable(struct drm_encoder *encoder)
 	tegra_sor_writel(sor, 0x00000000, SOR_XBAR_POL);
 	tegra_sor_writel(sor, value, SOR_XBAR_CTRL);
 
+	msleep(250);
+
+	if (1) {
+		struct drm_connector *connector = &output->connector;
+		struct edid *edid = drm_mode_connector_get_edid(connector, NULL);
+		struct i2c_adapter *ddc = sor->output.ddc;
+
+		if (drm_detect_hdmi_scdc(edid)) {
+			u8 scdc;
+
+			dev_dbg(sor->dev, "SCDC presence detected\n");
+
+			err = drm_scdc_readb(ddc, SCDC_SINK_VERSION, &scdc);
+			if (err < 0) {
+				union i2c_smbus_data data;
+
+				dev_err(sor->dev, "failed to read SCDC sink version: %d\n", err);
+
+				err = i2c_smbus_xfer(ddc, 0x54, 0, I2C_SMBUS_READ, 0x1, I2C_SMBUS_BYTE_DATA, &data);
+				if (err < 0) {
+					dev_err(sor->dev, "SMBUS failed: %d\n", err);
+				} else {
+					scdc = err;
+				}
+			}
+
+			dev_dbg(sor->dev, "SCDC sink version: %02x\n", scdc);
+			scdc = 0x1;
+
+			err = drm_scdc_writeb(ddc, SCDC_SOURCE_VERSION, scdc);
+			if (err < 0) {
+				dev_err(sor->dev, "failed to write SCDC source version: %d\n", err);
+			}
+		}
+
+		drm_mode_connector_put_edid(connector);
+	}
+
+	msleep(250);
+
 	/* switch to parent clock */
 	err = clk_set_parent(sor->clk_src, sor->clk_parent);
 	if (err < 0)

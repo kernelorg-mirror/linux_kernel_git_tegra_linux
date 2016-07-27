@@ -3675,6 +3675,23 @@ bool drm_detect_hdmi_scdc(struct edid *edid)
 
 	for_each_cea_db(cea, i, start, end) {
 		if (cea_db_is_hdmi_forum_vsdb(&cea[i])) {
+			DRM_DEBUG_KMS("HDMI Forum Vendor Specific Data Block\n");
+			DRM_DEBUG_KMS("  length: %u bytes\n", cea[i + 0] & 0x1f);
+			DRM_DEBUG_KMS("  tag: %x\n", cea[i + 0] >> 5);
+			DRM_DEBUG_KMS("  OUI: %x\n", cea[i + 1] << 16 | cea[i + 2] << 8 | cea[i + 3]);
+			DRM_DEBUG_KMS("  version: %u\n", cea[i + 4]);
+			DRM_DEBUG_KMS("  maximum TMDS character rate: %u\n", cea[i + 5]);
+			DRM_DEBUG_KMS("  SCDC: %u\n", (cea[i + 6] >> 7) & 0x1);
+			DRM_DEBUG_KMS("  RR-capable: %u\n", (cea[i + 6] >> 6) & 0x1);
+			DRM_DEBUG_KMS("  LTE_340mcsc_scramble: %u\n", (cea[i + 6] >> 3) & 0x1);
+			DRM_DEBUG_KMS("  independent view: %u\n", (cea[i + 6] >> 2) & 0x1);
+			DRM_DEBUG_KMS("  dual view: %u\n", (cea[i + 6] >> 1) & 0x1);
+			DRM_DEBUG_KMS("  3D OSD disparity: %u\n", (cea[i + 6] >> 0) & 0x1);
+			DRM_DEBUG_KMS("  deep color:\n");
+			DRM_DEBUG_KMS("    48 bits: %s\n", (cea[i + 7] & 0x4) ? "yes" : "no");
+			DRM_DEBUG_KMS("    36 bits: %s\n", (cea[i + 7] & 0x2) ? "yes" : "no");
+			DRM_DEBUG_KMS("    30 bits: %s\n", (cea[i + 7] & 0x1) ? "yes" : "no");
+
 			if (cea[i + 6] & 0x80)
 				return true;
 		}
